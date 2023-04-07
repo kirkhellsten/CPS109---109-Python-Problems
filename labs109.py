@@ -831,6 +831,7 @@ def __count_carries_4(a, b):
     f = lambda n:sum(map(int, str(n)))
     return int((f(a)+f(b)-f(a+b))/9)
 
+
 """
 
 """
@@ -877,6 +878,7 @@ def collapse_intervals(items):
 
 """
 
+"""
 def prominences(height):
 
     if len(height) == 1:
@@ -887,24 +889,195 @@ def prominences(height):
 
     results = []
 
-    topElevation = max(height)
+    for i in range(len(height)-1):
+        elevation = height[i]
+        position = i
+        prominence = 0
+        for ii in range(i, len(height)-1):
+            if height[ii] > elevation and prominence == 0:
+                break
+            elif height[ii] > elevation and prominence > 0:
+                results.append((position, elevation, prominence))
+                print(prominence)
+            elif prominence > elevation - height[ii]:
+                prominence = elevation - height[ii]
 
-    print(topElevation)
-
-    while max(height) != 0:
-        position = height.index(topElevation)
-        
-    position = 0
-    prominence = height[0]
-
-    for h in height:
-        if h >= elevation:
-            elevation = h
-            position += 1
-        elif h < elevation:
-            prominence = elevation - h
-            results.append((position, elevation, prominence))
+    results.append((position, elevation, elevation))
 
     return results
 
-print(prominences([1, 3, 1]))
+print(prominences([3, 1, 4]))
+
+def prominences_2(height):
+
+    if len(height) == 1:
+        if height[0] == 0:
+            return []
+        else:
+            return [(0,height[0],height[0])]
+
+    results = []
+
+
+    elevation = height[0]
+    position = 0
+    index = 0
+    prominence = 0
+
+    for h in height:
+        if h > elevation and prominence != 0:
+            results.append((position, elevation, prominence))
+            prominence = 0
+            position = index
+            elevation = h
+        elif h > elevation:
+            elevation = h
+            position = index
+        elif h < elevation and prominence < elevation - h:
+            prominence = elevation - h
+        index += 1
+
+    results.append((position, elevation, elevation))
+
+    elevation = height[len(height)-1]
+    position = len(height)-1
+    index = len(height)-1
+    prominence = 0
+    for i in range(len(height)-1,-1,-1):
+        h = height[i]
+        if h > elevation and prominence != 0:
+            results.append((position, elevation, prominence))
+            prominence = 0
+            position = index
+            elevation = h
+        elif h > elevation:
+            elevation = h
+            position = index
+        elif h < elevation and prominence < elevation - h:
+            prominence = elevation - h
+        index -= 1
+
+    return results
+
+"""
+
+"""
+def __candy_stable_state(candies):
+    for candy in candies:
+        if candy >= 2:
+            return False
+    return True
+
+def candy_share(candies):
+    print(candies)
+    count = 0
+    while not __candy_stable_state(candies):
+        newcandies = candies.copy()
+        for i in range(len(candies)):
+            if candies[i] >= 2:
+                newcandies[i-1] += 1
+                if i+1 >= len(candies):
+                    newcandies[0] += 1
+                else:
+                    newcandies[i+1] += 1
+                newcandies[i] -= 2
+        count += 1
+        candies = newcandies
+    return count
+
+
+def duplicate_digit_bonus(n):
+
+    if n <= 9:
+        return 0
+
+    result = 0
+
+    score = 0
+    lastDigit = n % 10
+    firstLastDigit = True
+    while n >= 1:
+        n = n // 10
+        nextLastDigit = n % 10
+        if lastDigit == nextLastDigit:
+            if score == 0:
+                score = 1
+            else:
+                score *= 10
+        else:
+            if firstLastDigit:
+                score *= 2
+            result += score
+            score = 0
+            firstLastDigit = False
+
+        lastDigit = nextLastDigit
+
+    result += score
+    return result
+"""
+
+"""
+def __nearest_smaller_get_right(num, items):
+    for item in items:
+        if item < num:
+            return item
+
+def nearest_smaller(items):
+
+    if len(items) == 1:
+        return items
+
+    expected_results = items.copy()
+    for i in range(len(items)):
+        smaller = __nearest_smaller_get_right(items[i], items[i:])
+        expected_results[i] = smaller
+    return expected_results
+
+"""
+
+"""
+
+def ordinal_transform(seed, i):
+    return None    
+
+"""
+
+"""
+def squares_intersect(s1, s2):
+    if s1[0] + s1[2] >= s2[0] and \
+        s1[0] <= s2[0] + s2[2] and \
+        s1[1] + s1[2] >= s2[1] and \
+        s1[1] <= s2[1] + s2[2]:
+        return True
+    return False
+
+"""
+
+"""
+def oware_move(board, house):
+    return None
+
+"""
+
+"""
+def remove_after_kth(items, k=1):
+    if k == 0:
+        return []
+    dict = {}
+    newlist = []
+    for item in items:
+        if item not in dict:
+            dict[item] = 1
+            newlist.append(item)
+        elif item in dict:
+            if dict[item] < k:
+                dict[item] += 1
+                newlist.append(item)
+    return newlist
+
+"""
+
+"""
+    def brussels_choice_step(n, mink, maxk):
+"""
