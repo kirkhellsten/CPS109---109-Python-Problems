@@ -1,5 +1,6 @@
 # As an example, here is an implementation of
 # the first problem "Ryerson Letter Grade":
+
 """
 def ryerson_letter_grade(n):
     if n < 50:
@@ -832,18 +833,21 @@ def __count_carries_4(a, b):
     return int((f(a)+f(b)-f(a+b))/9)
 
 
-"""
 
-"""
+from fractions import Fraction
 def leibniz(heads, positions):
-    expectedResults = [0] * len(heads)
-    for head in heads:
+    previous_row = [heads[0]]
+    current_row = [heads[1]]
+    for i in range(1, len(heads)):
+        for ii in range(1, i+1):
+            current_row.append(previous_row[ii-1]-current_row[ii-1])
+        if i + 1 < len(heads):
+            previous_row = current_row
+            current_row = [heads[i+1]]
 
-    return expectedResults
+    return [current_row[i] for i in positions]
 
-"""
 
-"""
 def expand_intervals(intervals):
     if ',' not in intervals:
         if intervals == '':
@@ -879,6 +883,7 @@ def collapse_intervals(items):
 """
 
 """
+
 def prominences(height):
 
     if len(height) == 1:
@@ -961,7 +966,7 @@ def prominences_2(height):
 
 """
 
-"""
+
 def __candy_stable_state(candies):
     for candy in candies:
         if candy >= 2:
@@ -969,7 +974,6 @@ def __candy_stable_state(candies):
     return True
 
 def candy_share(candies):
-    print(candies)
     count = 0
     while not __candy_stable_state(candies):
         newcandies = candies.copy()
@@ -1015,9 +1019,8 @@ def duplicate_digit_bonus(n):
 
     result += score
     return result
-"""
 
-"""
+
 def __nearest_smaller_get_right(num, items):
     for item in items:
         if item < num:
@@ -1034,7 +1037,6 @@ def nearest_smaller(items):
         expected_results[i] = smaller
     return expected_results
 
-"""
 
 """
 
@@ -1043,7 +1045,6 @@ def ordinal_transform(seed, i):
 
 """
 
-"""
 def squares_intersect(s1, s2):
     if s1[0] + s1[2] >= s2[0] and \
         s1[0] <= s2[0] + s2[2] and \
@@ -1052,7 +1053,6 @@ def squares_intersect(s1, s2):
         return True
     return False
 
-"""
 
 """
 def oware_move(board, house):
@@ -1060,7 +1060,6 @@ def oware_move(board, house):
 
 """
 
-"""
 def remove_after_kth(items, k=1):
     if k == 0:
         return []
@@ -1076,8 +1075,90 @@ def remove_after_kth(items, k=1):
                 newlist.append(item)
     return newlist
 
-"""
 
 """
     def brussels_choice_step(n, mink, maxk):
 """
+
+
+
+
+
+
+"""
+ 108
+ - This one is hard to understand what to do
+"""
+
+"""
+def cut_corners(points):
+
+"""
+
+"""
+ 109
+ - This one sucks. It just gives error. Buggy problem
+"""
+"""
+def fibonacci_word(k):
+    kstr = str(k)
+    if kstr[len(kstr)-1] == '0':
+        return '0'
+    else:
+        return '1'
+"""
+
+"""
+    Bonus Problems ---------------------------------------------------------------------
+    110 - Hard. Requires backtraking and using recrusion to make efficient calls
+"""
+
+"""
+import itertools
+def reverse_110_generator(size):
+    li10 = list(itertools.product([0, 1], repeat=size))
+    for li in li10:
+        yield list(li)
+
+def reverse_110_too_slow(current):
+    for result in reverse_110_generator(len(current)):
+        retcurrent = [ 0 for x in result ]
+        result.append(result[0])
+        for i in range(0, len(result)-1):
+            if result[i-1] == 1 and result[i] == 1 and result[i+1] == 1:
+                retcurrent[i] = 0
+            if result[i-1] == 1 and result[i] == 1 and result[i+1] == 0:
+                retcurrent[i] = 1
+            if result[i-1] == 1 and result[i] == 0 and result[i+1] == 1:
+                retcurrent[i] = 1
+            if result[i-1] == 1 and result[i] == 0 and result[i+1] == 0:
+                retcurrent[i] = 0
+            if result[i-1] == 0 and result[i] == 1 and result[i+1] == 1:
+                retcurrent[i] = 1
+            if result[i-1] == 0 and result[i] == 1 and result[i+1] == 0:
+                retcurrent[i] = 1
+            if result[i - 1] == 0 and result[i] == 0 and result[i + 1] == 1:
+                retcurrent[i] = 1
+            if result[i - 1] == 0 and result[i] == 0 and result[i + 1] == 0:
+                retcurrent[i] = 0
+        if retcurrent == current:
+            return result[0:len(result)-1]
+    return None
+
+def reverse_110_backtrace(current, s):
+    if current == 1:
+        return s
+    else:
+        return [
+            y + x
+            for y in reverse_110_backtrace(1, s)
+            for x in reverse_110_backtrace(current - 1, s)
+
+        ]
+
+
+def reverse_110(current):
+    return reverse_110_backtrace(len(current), ["0","1"])
+"""
+
+#print(reverse_110_too_slow([1, 0, 1, 1, 0, 0, 0, 0]))
